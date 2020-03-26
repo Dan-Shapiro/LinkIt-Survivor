@@ -144,6 +144,11 @@ hr {
 		text-decoration: none;
 		color: $dark;
 		float: left;
+		&:hover {
+			background-color: $background;
+			color: $highlight;
+			border: 2px solid $highlight;
+		}
 	}
 	nav {
 		float: right;
@@ -153,6 +158,10 @@ hr {
 			text-decoration: none;
 			margin: 0 1rem;
 			font-size: 1rem;
+			&:hover {
+				background-color: $background;
+				color: $highlight;
+			}
 		}
 	}
 }

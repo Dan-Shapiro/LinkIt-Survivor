@@ -1,27 +1,33 @@
 <h2>Announcements</h2>
-<hr>
-
-<h3>POST TITLE</h3>
-<p>
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed nisi lacus sed viverra tellus in hac. Sed turpis tincidunt id aliquet risus feugiat. Laoreet suspendisse interdum consectetur libero id faucibus nisl tincidunt eget. Penatibus et magnis dis parturient montes nascetur ridiculus. <span class="em">This text is emphasized.</span> Gravida arcu ac tortor dignissim convallis aenean et tortor at. Libero enim sed faucibus turpis in eu mi bibendum neque. Purus semper eget duis at tellus at urna condimentum mattis. Felis bibendum ut tristique et egestas quis ipsum. Nunc non blandit massa enim nec dui nunc mattis enim. Commodo sed egestas egestas fringilla phasellus. Nam libero justo laoreet sit. Sit amet tellus cras adipiscing enim. Amet risus nullam eget felis eget.
-</p>
-<p class="date"><%= Time.now.strftime("%A, %b, %d at %l:%M %P") %></p>
 
 <hr>
+<% if current_user.admin? %>
+	<div class="button_wrapper">
+		<%= link_to "Make a New Post", new_post_path, :class => 'button' %>
+	</div>
+	<hr>
+<% end %>
 
-<h3>POST TITLE</h3>
-<p>
-	Sed faucibus turpis in eu. Felis donec et odio pellentesque diam volutpat. Non odio euismod lacinia at. Nibh venenatis cras sed felis eget velit aliquet sagittis. Euismod quis viverra nibh cras pulvinar mattis nunc sed. Eu non diam phasellus vestibulum lorem sed risus ultricies. Eu ultrices vitae auctor eu augue ut lectus arcu bibendum. Risus commodo viverra maecenas accumsan lacus vel facilisis volutpat. Massa tincidunt dui ut ornare lectus sit amet est. Vel quam elementum pulvinar etiam non quam. Nibh ipsum consequat nisl vel pretium lectus quam. Turpis egestas maecenas pharetra convallis. Morbi leo urna molestie at elementum. Eu scelerisque felis imperdiet proin. Odio morbi quis commodo odio aenean sed adipiscing. Nisl purus in mollis nunc sed id. Eget gravida cum sociis natoque penatibus et magnis dis. Proin sagittis nisl rhoncus mattis rhoncus urna neque. Laoreet id donec ultrices tincidunt arcu non sodales neque sodales.
-</p>
-<p class="date"><%= Time.now.strftime("%A, %b, %d at %l:%M %P") %></p>
+<% if @posts.count.zero? %>
+	<p>No announcements have been made yet.</p>
+<% end %>
 
-<hr>
-
-<h3>POST TITLE</h3>
-<p>
-	Tortor posuere ac ut consequat semper viverra nam libero. Molestie at elementum eu facilisis sed odio morbi quis. Pharetra sit amet aliquam id. Nec ultrices dui sapien eget. Auctor eu augue ut lectus arcu bibendum. Facilisis volutpat est velit egestas. Mauris in aliquam sem fringilla ut. Vitae purus faucibus ornare suspendisse. Montes nascetur ridiculus mus mauris vitae ultricies leo integer malesuada. Molestie at elementum eu facilisis sed. Et molestie ac feugiat sed lectus vestibulum mattis ullamcorper velit.
-</p>
-<p class="date"><%= Time.now.strftime("%A, %b, %d at %l:%M %P") %></p>
+<% @posts.each do |post| %>
+	<h3><%= post.title %></h3>
+	<h4><%= post.subtitle %></h4>
+	<br>
+	<p><%= post.content %></p>
+	<p class="date"><%= post.created_at.strftime("%A, %b, %d at %l:%M %P") %></p>
+	<% if current_user.admin? %>
+		<div class="button_wrapper">
+			<%= link_to "Edit", edit_post_path(post) , :class => 'button' %>
+		</div>
+		<div class="button_wrapper">
+			<%= link_to "Delete", post, method: :delete, data: { confirm: 'Are you sure?' } , :class => 'button' %>
+		</div>
+	<% end %>
+	<hr>
+<% end %>
 
 <div class="button_wrapper">
 	<%= link_to "Back to Top", root_path, :class => 'button' %>
