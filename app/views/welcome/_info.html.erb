@@ -5,7 +5,7 @@
 <div class="bounding_box">
 	<span class="panel">
 		<% @tribes.each do |tribe| %>
-			<h2><%= tribe.name %></h2>
+			<h2><%= tribe.display_name %></h2>
 			<% tribe.users.order("email").each do |user| %>
 				<p><%= user.email.split("@").first.capitalize %></p>
 			<% end %>

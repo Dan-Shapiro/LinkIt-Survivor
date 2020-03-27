@@ -67,6 +67,10 @@ body {
 	border-bottom: 1px solid $border;
 }
 
+h1, h2, h3 ,h4, h5, h6 {
+	text-align: center;
+}
+
 h1, h2, h3 ,h4, h5, h6, p, ul, li {
 	color: $dark;
 }
@@ -114,7 +118,7 @@ hr {
 	height: 2px;
 	border: 0;
 	border-top: 2px solid $highlight;
-	margin: 2rem 0;
+	margin: 2rem auto;
 }
 
 .em {

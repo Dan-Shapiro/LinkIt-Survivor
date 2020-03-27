@@ -1,0 +1,48 @@
+<div class="skinny_wrapper wrapper_padding">
+  <%= form_with(model: vote, local: true) do |form| %>
+    <% if vote.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(vote.errors.count, "error") %> prohibited this vote from being saved:</h2>
+
+        <ul>
+        <% vote.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :title %>
+      <%= form.text_field :title %>
+    </div>
+
+    <div class="field">
+      <%= form.label :content, "Write your vote content here" %>
+      <%= form.text_area :content %>
+    </div>
+
+    <div class="field">
+      <strong><%= form.label :active %></strong>
+      <%= form.check_box :active %>
+    </div>
+
+    <div class="field">
+      <strong><%= form.label :poll %></strong>
+      <%= form.check_box :poll %>
+    </div>
+
+     <div class="field">
+      <strong><%= form.label "Tribes" %></strong>
+      <%= form.collection_check_boxes :tribe_ids, Tribe.all, :id, :name do |t| %>
+        <%= t.label do %>
+          <%= t.check_box + t.text %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <div class="actions button_wrapper">
+      <%= form.submit "Post to Voting Board" %>
+    </div>
+  <% end %>
+</div>

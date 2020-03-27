@@ -10,16 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_185228) do
+ActiveRecord::Schema.define(version: 2020_03_27_213802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "info_posts", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "posts", force: :cascade do |t|
     t.string "title"
@@ -31,11 +25,21 @@ ActiveRecord::Schema.define(version: 2020_03_27_185228) do
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
+  create_table "tribe_votes", force: :cascade do |t|
+    t.bigint "tribe_id"
+    t.bigint "vote_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tribe_id"], name: "index_tribe_votes_on_tribe_id"
+    t.index ["vote_id"], name: "index_tribe_votes_on_vote_id"
+  end
+
   create_table "tribes", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "ordering"
+    t.string "display_name"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,5 +57,16 @@ ActiveRecord::Schema.define(version: 2020_03_27_185228) do
     t.index ["tribe_id"], name: "index_users_on_tribe_id"
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "poll"
+  end
+
+  add_foreign_key "tribe_votes", "tribes"
+  add_foreign_key "tribe_votes", "votes"
   add_foreign_key "users", "tribes"
 end
