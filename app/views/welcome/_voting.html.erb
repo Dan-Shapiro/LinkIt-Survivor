@@ -1,13 +1,24 @@
 <h2>Voting Board</h2>
 <hr>
 <div class="bounding_box">
-	<% if @votes.count.zero? %>
-		<p>No voting information posted.</p>
+	<% if current_user.admin %>
+		<div class="button_wrapper">
+			<%= link_to "Manage Votes", votes_path, :class => 'button' %>
+		</div>
+		<hr>
 	<% end %>
 
-	<% @votes.each do |vote| %>
-		<h2><%= vote.title %></h2>
-		<%= markdown vote.content %>
-		<p class="date"><%= vote.updated_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
+	<% if @vote.nil? %>
+		<p>No voting information posted.</p>
+	<% else %>
+		<h2><%= @vote.title %></h2>
+
+		<%= markdown @vote.content %>
+
+		<% if @vote.poll %>
+			<p>POLL GOES HERE</p>
+		<% end %>
+
+		<p class="date"><%= @vote.updated_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
 	<% end %>
 </div>

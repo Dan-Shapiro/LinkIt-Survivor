@@ -4,7 +4,7 @@ class VotesController < ApplicationController
   before_action :is_admin?
 
   def index
-    @votes = Vote.all
+    @votes = Vote.all.order("created_at DESC")
   end
 
   def new

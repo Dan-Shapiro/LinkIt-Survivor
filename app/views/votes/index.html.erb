@@ -1,33 +1,28 @@
-<p id="notice"><%= notice %></p>
+<div class="skinny_wrapper wrapper_padding">
+  <h1>Votes</h1>
 
-<h1>Votes</h1>
+  <hr>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Content</th>
-      <th>Active</th>
-      <th>Tribe</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <% @votes.each do |vote| %>
 
-  <tbody>
-    <% @votes.each do |vote| %>
-      <tr>
-        <td><%= vote.title %></td>
-        <td><%= vote.content %></td>
-        <td><%= vote.active %></td>
-        <td><%= vote.tribe %></td>
-        <td><%= link_to 'Show', vote %></td>
-        <td><%= link_to 'Edit', edit_vote_path(vote) %></td>
-        <td><%= link_to 'Destroy', vote, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+    <h2><%= vote.title %></h2>
+
+    <% if vote.active %>
+      <p class="active_tag">ACTIVE</p>
     <% end %>
-  </tbody>
-</table>
 
-<br>
+    <p class="date" style="text-align: center;"><%= vote.updated_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
 
-<%= link_to 'New Vote', new_vote_path %>
+    <%= markdown vote.content %>
+
+    <div class="button_wrapper">
+      <%= link_to "Edit", edit_vote_path(vote), :class => 'button' %>
+    </div>
+
+    <div class="button_wrapper">
+      <%= link_to "Delete", vote, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button' %>
+    </div>
+
+    <hr>
+  <% end %>
+</div>
