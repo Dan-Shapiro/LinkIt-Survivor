@@ -1,3 +1,53 @@
 // Place all the styles related to the Posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "variables";
+
+.pagination:before,
+.pagination:after {
+	content: " ";
+	display: table;
+}
+
+.pagination:after {
+	clear: both;
+}
+
+.pagination {
+	text-align: center;
+	margin: 0 0 3em 0;
+
+	a,
+	.previous_page,
+	.current,
+	.next_page {
+		padding: .75em 1em;
+		margin: 0 .5em;
+		border-radius: .15em;
+		line-height: 35px;
+		text-decoration: none;
+		background: $white;
+		font-weight: bold;
+		font-size: 1em;
+		font-style: normal;
+		color: $dark;
+		&:hover {
+			background: $highlight;
+			color: $white !important;
+		}
+	}
+
+	.current {
+		background: $highlight;
+		color: $white;
+	}
+
+	.disabled {
+		color: $disabled;
+		&:hover {
+			color: $disabled !important;
+			background: $white;
+		}
+	}
+}

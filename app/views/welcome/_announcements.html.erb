@@ -29,6 +29,8 @@
 	<hr>
 <% end %>
 
+<%= will_paginate @posts %>
+
 <div class="button_wrapper">
-	<%= link_to "Back to Top", root_path, :class => 'button' %>
+	<%= link_to "Back to Top", '#top', :class => 'button' %>
 </div>
