@@ -16,7 +16,7 @@
 	<h3><%= post.title %></h3>
 	<h4><%= post.subtitle %></h4>
 	<br>
-	<p><%= post.content %></p>
+	<%= markdown post.content %>
 	<p class="date"><%= post.created_at.strftime("%A, %b, %d at %l:%M %P") %></p>
 	<% if current_user.admin? %>
 		<div class="button_wrapper">
