@@ -1,6 +1,7 @@
 <h2>Announcements</h2>
 
 <hr>
+
 <% if current_user.admin? %>
 	<div class="button_wrapper">
 		<%= link_to "Make a New Post", new_post_path, :class => 'button' %>
@@ -17,7 +18,7 @@
 	<h4><%= post.subtitle %></h4>
 	<br>
 	<%= markdown post.content %>
-	<p class="date"><%= post.created_at.strftime("%A, %b, %d at %l:%M %P") %></p>
+	<p class="date"><%= post.created_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
 	<% if current_user.admin? %>
 		<div class="button_wrapper">
 			<%= link_to "Edit", edit_post_path(post) , :class => 'button' %>
