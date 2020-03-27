@@ -73,21 +73,7 @@
 .panel {
 	text-align: center;
 
-	ol, ul {
-		display: table;
-		margin: 0 auto;
-	}
-
-	ol {
-		list-style-type: none;
-		counter-reset:item 6;
-	}
-
-	ol > li {
-		counter-increment:item -1;
-	}
-
-	ol > li:after {
-		content: counter(item);
+	p {
+		margin: 0;
 	}
 }

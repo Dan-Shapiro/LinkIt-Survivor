@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_171434) do
+ActiveRecord::Schema.define(version: 2020_03_27_185228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "info_posts", force: :cascade do |t|
     t.string "title"
-    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -32,6 +31,13 @@ ActiveRecord::Schema.define(version: 2020_03_27_171434) do
     t.index ["slug"], name: "index_posts_on_slug", unique: true
   end
 
+  create_table "tribes", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ordering"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -41,8 +47,11 @@ ActiveRecord::Schema.define(version: 2020_03_27_171434) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
+    t.bigint "tribe_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["tribe_id"], name: "index_users_on_tribe_id"
   end
 
+  add_foreign_key "users", "tribes"
 end

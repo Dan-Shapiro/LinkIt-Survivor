@@ -1,32 +1,15 @@
-<h2>Info</h2>
+<h2>Player Information</h2>
 
 <hr>
 
 <div class="bounding_box">
-	<%# if current_user.admin? %>
-		<!--
-		<div class="button_wrapper">
-			<%#= link_to "Make a New Post", new_info_post_path, :class => 'button' %>
-		</div>
-		<hr>
-		-->
-	<%# end %>
-
-	<% @info_posts.each do |info_post| %>
-		<span class="panel">
-			<h3><%= info_post.title %></h3>
-			<br>
-			<span class="panel_content"><%= markdown info_post.content %></span>
-			<p class="date"><%= info_post.updated_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
-
-			<% if current_user.admin? %>
-				<div class="button_wrapper">
-					<%= link_to "Edit", edit_info_post_path(info_post) , :class => 'button' %>
-				</div>
-				<div class="button_wrapper">
-					<%= link_to "Delete", info_post, method: :delete, data: { confirm: 'Are you sure?' } , :class => 'button' %>
-				</div>
+	<span class="panel">
+		<% @tribes.each do |tribe| %>
+			<h2><%= tribe.name %></h2>
+			<% tribe.users.order("email").each do |user| %>
+				<p><%= user.email.split("@").first.capitalize %></p>
 			<% end %>
-		</span>
-	<% end %>
+			<br>
+		<% end %>
+	</span>
 </div>

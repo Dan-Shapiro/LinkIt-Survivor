@@ -1,2 +1,0 @@
-class InfoPost < ApplicationRecord
-end

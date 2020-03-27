@@ -3,6 +3,6 @@ class WelcomeController < ApplicationController
 
 	def index
 		@posts = Post.all.order("created_at DESC").paginate(page: params[:page], per_page: 5)
-		@info_posts = InfoPost.all.order("updated_at DESC")
+		@tribes = Tribe.joins(:users).distinct.order("ordering")
 	end
 end
