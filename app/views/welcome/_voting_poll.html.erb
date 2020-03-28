@@ -1,0 +1,34 @@
+<%= form_with(model: @poll, local: true) do |form| %>
+  <% if @poll.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(poll.errors.count, "error") %> prohibited this poll from being saved:</h2>
+
+      <ul>
+      <% @poll.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :vote_id, value: @vote.id %>
+  </div>
+
+  <% unless @current_user_recent_vote.nil? %>
+    Your vote is for <strong><%= @current_user_recent_vote.vote_for %></strong>. Change by casting another vote.
+  <% end %>
+
+  <div class="field">
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vote_for %>
+    <%= form.text_field :vote_for %>
+  </div>
+
+  <div class="actions button_wrapper" style="margin-top: 0;">
+    <%= form.submit "Cast Vote" %>
+  </div>
+<% end %>

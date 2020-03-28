@@ -1,6 +1,10 @@
 <div class="skinny_wrapper wrapper_padding">
   <h1>Votes</h1>
 
+  <div class="button_wrapper">
+    <%= link_to "New Voting Post", new_vote_path, :class => 'button' %>
+  </div>
+
   <hr>
 
   <% @votes.each do |vote| %>
@@ -13,14 +17,50 @@
 
     <p class="date" style="text-align: center;"><%= vote.updated_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
 
+    <hr>
+    
     <%= markdown vote.content %>
+
+    <hr>
+
+    <h3>Vote Results</h3>
+
+    <% User.where(tribe_id: vote.tribe_id).each do |player| %>
+      <p>
+        <%= player.email.split("@").first.capitalize %>
+        voted for 
+        <strong>
+          <% if vote.polls.where(user_id: player.id).order("created_at DESC").count > 0 %>
+            <%= vote.polls.where(user_id: player.id).order("created_at DESC").first.vote_for %>
+          <% else %>
+            *<%= player.email.split("@").first.capitalize %>*
+          <% end %>
+        </strong>
+      </p>
+    <% end %>
+
+    <hr>
+
+    <h3>This vote is visible to</h3>
+
+    <% vote.tribes.order("name").each do |t| %>
+      <p">
+        <% if vote.tribe_id == t.id %>
+          <strong>*<%= t.name %>*</strong>
+        <% else %>
+          <%= t.name %>
+        <% end %>
+      </p>
+    <% end %>
+
+    <hr>
 
     <div class="button_wrapper">
       <%= link_to "Edit", edit_vote_path(vote), :class => 'button' %>
     </div>
 
     <div class="button_wrapper">
-      <%= link_to "Delete", vote, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button' %>
+      <%= link_to "Delete", vote, method: :delete, data: { confirm: 'Are you sure? You will delete all polls for this vote.' }, :class => 'button' %>
     </div>
 
     <hr>

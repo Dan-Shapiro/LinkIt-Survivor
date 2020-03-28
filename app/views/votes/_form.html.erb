@@ -32,6 +32,15 @@
       <%= form.check_box :poll %>
     </div>
 
+    <div class="field">
+      <strong><%= form.label "Poll this Tribe (Admins if none)" %></strong>
+      <% Tribe.all.each do |t| %>
+        <%= form.radio_button :tribe_id, t.id %>
+        <%= form.label t.name, :style => "display: inline-block;" %>
+        <br>
+      <% end %>
+    </div>
+
      <div class="field">
       <strong><%= form.label "Tribes" %></strong>
       <%= form.collection_check_boxes :tribe_ids, Tribe.all, :id, :name do |t| %>

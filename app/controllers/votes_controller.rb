@@ -54,6 +54,6 @@ class VotesController < ApplicationController
     end
 
     def vote_params
-      params.require(:vote).permit(:title, :content, :active, :poll, tribe_ids: [])
+      params.require(:vote).permit(:title, :content, :active, :poll, :tribe_id, tribe_ids: [])
     end
 end

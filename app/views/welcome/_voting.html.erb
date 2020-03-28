@@ -15,8 +15,8 @@
 
 		<%= markdown @vote.content %>
 
-		<% if @vote.poll %>
-			<p>POLL GOES HERE</p>
+		<% if @vote.poll and Tribe.find(@vote.tribe_id).users.include?(current_user) %>
+			<%= render 'voting_poll' %>
 		<% end %>
 
 		<p class="date"><%= @vote.updated_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
