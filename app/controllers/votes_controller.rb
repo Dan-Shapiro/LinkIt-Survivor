@@ -4,7 +4,7 @@ class VotesController < ApplicationController
   before_action :is_admin?
 
   def index
-    @votes = Vote.all.order("created_at DESC")
+    @votes = Vote.all.order("created_at DESC").paginate(page: params[:page], per_page: 1)
   end
 
   def new
