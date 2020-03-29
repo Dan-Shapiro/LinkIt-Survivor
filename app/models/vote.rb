@@ -4,5 +4,5 @@ class Vote < ApplicationRecord
 
   belongs_to :tribe
 
-  has_many :polls
+  has_many :polls, dependent: :delete_all
 end

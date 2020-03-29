@@ -23,25 +23,27 @@
 
     <hr>
 
-    <h3>Vote Results</h3>
+    <% if vote.poll %>
+      <h3>Vote Results</h3>
+    
+      <% User.where(tribe_id: vote.tribe_id).each do |player| %>
+        <p>
+          <%= player.email.split("@").first.capitalize %>
+          voted for 
+          <strong>
+            <% if vote.polls.where(user_id: player.id).order("created_at DESC").count > 0 %>
+              <%= vote.polls.where(user_id: player.id).order("created_at DESC").first.vote_for %>
+            <% else %>
+              *<%= player.email.split("@").first.capitalize %>*
+            <% end %>
+          </strong>
+        </p>
+      <% end %>
 
-    <% User.where(tribe_id: vote.tribe_id).each do |player| %>
-      <p>
-        <%= player.email.split("@").first.capitalize %>
-        voted for 
-        <strong>
-          <% if vote.polls.where(user_id: player.id).order("created_at DESC").count > 0 %>
-            <%= vote.polls.where(user_id: player.id).order("created_at DESC").first.vote_for %>
-          <% else %>
-            *<%= player.email.split("@").first.capitalize %>*
-          <% end %>
-        </strong>
-      </p>
+      <hr>
     <% end %>
 
-    <hr>
-
-    <h3>This vote is visible to</h3>
+    <h3>This Vote is Visible to</h3>
 
     <% vote.tribes.order("name").each do |t| %>
       <p">

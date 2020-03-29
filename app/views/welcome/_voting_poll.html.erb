@@ -15,7 +15,9 @@
     <%= form.hidden_field :vote_id, value: @vote.id %>
   </div>
 
-  <% unless @current_user_recent_vote.nil? %>
+  <% if @current_user_recent_vote.nil? %>
+    You have not case a vote yet.
+  <% else %>
     Your vote is for <strong><%= @current_user_recent_vote.vote_for %></strong>. Change by casting another vote.
   <% end %>
 
