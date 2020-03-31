@@ -7,7 +7,12 @@
 		<% @tribes.each do |tribe| %>
 			<h2><%= tribe.display_name %></h2>
 			<% tribe.users.order("email").each do |user| %>
-				<p><%= user.email.split("@").first.capitalize %></p>
+				<p>
+					<%= user.email.split("@").first.capitalize %>
+					<% unless user.nickname.nil? %>
+						"<%= user.nickname %>"
+					<% end %>
+				</p>
 			<% end %>
 			<br>
 		<% end %>
