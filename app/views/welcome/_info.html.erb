@@ -6,6 +6,7 @@
 	<span class="panel">
 		<% @tribes.each do |tribe| %>
 			<h2><%= tribe.display_name %></h2>
+			<%= image_tag tribe.flag_filename, :class => "tribe_flag" unless tribe.flag_filename.nil? %>
 			<% tribe.users.order("email").each do |user| %>
 				<p>
 					<%= user.email.split("@").first.capitalize %>
@@ -14,7 +15,7 @@
 					<% end %>
 				</p>
 			<% end %>
-			<br>
+			<hr>
 		<% end %>
 	</span>
 </div>
