@@ -16,7 +16,7 @@
   </div>
 
   <% if @current_user_recent_vote.nil? %>
-    You have not case a vote yet.
+    You have not cast a vote yet.
   <% else %>
     Your vote is for <strong><%= @current_user_recent_vote.vote_for %></strong>. Change by casting another vote.
   <% end %>
