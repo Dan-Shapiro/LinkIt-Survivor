@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_31_232908) do
+ActiveRecord::Schema.define(version: 2020_04_02_210925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "confessionals", force: :cascade do |t|
+    t.bigint "user_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_confessionals_on_user_id"
+  end
 
   create_table "polls", force: :cascade do |t|
     t.bigint "vote_id"
@@ -80,6 +88,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_232908) do
     t.index ["tribe_id"], name: "index_votes_on_tribe_id"
   end
 
+  add_foreign_key "confessionals", "users"
   add_foreign_key "polls", "users"
   add_foreign_key "polls", "votes"
   add_foreign_key "tribe_votes", "tribes"

@@ -1,0 +1,19 @@
+<div class="skinny_wrapper wrapper_padding">
+  <h1>Confessionals</h1>
+
+  <% @confessionals.each do |confessional| %>
+    <h2><%= "#{confessional.user.email.split("@").first.capitalize} \"#{confessional.user.nickname}\"" %></h2>
+
+    <p class="date" style="text-align: center;"><%= confessional.created_at.localtime.strftime("%A, %b, %d at %l:%M %P") %></p>
+
+    <p><%= markdown confessional.content %></p>
+
+    <div class="button_wrapper">
+      <%= link_to 'Destroy', confessional, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'button' %>
+    </div>
+
+    <hr>
+  <% end %>
+
+  <%= will_paginate @confessionals %>
+</div>

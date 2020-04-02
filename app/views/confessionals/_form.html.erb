@@ -1,0 +1,28 @@
+<div class="skinny_wrapper wrapper_padding">
+  <%= form_with(model: confessional, local: true) do |form| %>
+    <% if confessional.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(confessional.errors.count, "error") %> prohibited this confessional from being saved:</h2>
+
+        <ul>
+        <% confessional.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.hidden_field :user_id, value: current_user.id %>
+    </div>
+
+    <div class="field">
+      <%= form.label :content, "Write your confessional here" %>
+      <%= form.text_area :content %>
+    </div>
+
+    <div class="actions button_wrapper">
+      <%= form.submit "Submit" %>
+    </div>
+  <% end %>
+</div>
