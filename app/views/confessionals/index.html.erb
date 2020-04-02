@@ -1,6 +1,10 @@
 <div class="skinny_wrapper wrapper_padding">
   <h1>Confessionals</h1>
 
+  <% if @confessionals.count.zero? %>
+    <p>No confessionals have been written yet.</p>
+  <% end %>
+
   <% @confessionals.each do |confessional| %>
     <h2><%= "#{confessional.user.email.split("@").first.capitalize} \"#{confessional.user.nickname}\"" %></h2>
 
