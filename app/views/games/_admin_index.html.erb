@@ -1,13 +1,13 @@
+<div class="button_wrapper">
+  <%= link_to 'New Game', new_game_path, :class => 'button' %>
+</div>
+
+<hr>
+
 <% if @games.count.zero? %>
   <h2>There have not been any games yet.</h2>
 <% else %>
 
-  <div class="button_wrapper">
-    <%= link_to 'New Game', new_game_path, :class => 'button' %>
-  </div>
-
-  <hr>
-    
   <% @games.each do |game| %>
     <h2><%= game.name %></h2>
 
