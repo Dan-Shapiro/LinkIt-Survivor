@@ -1,0 +1,13 @@
+<div class="skinny_wrapper wrapper_padding">
+  <h1>Games</h1>
+
+  <hr>
+
+  <% if current_user.admin? %>
+    <%= render 'admin_index' %>
+  <% else %>
+    <%= render 'player_index' %>
+  <% end %>
+
+  <%= will_paginate @games %>
+</div>

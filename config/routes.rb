@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :games, except: [:show] do
+    collection do
+      get '/play' => 'games#play'
+    end
+  end
+  resources :scores, only: [:create]
   resources :confessionals, except: [:show, :edit, :update]
   resources :votes, except: [:show]
   resources :info_posts, except: [:index, :show]

@@ -5,6 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :validatable
 
   belongs_to :tribe
-
   has_many :polls
+  has_many :confessionals
+  has_many :scores
 end

@@ -3,6 +3,10 @@
 
 	<nav>
 		<% if user_signed_in? %>
+			<% if Game.where(active: true).count > 0 %>
+				<%= link_to "Games", games_path %>
+			<% end %>
+
 			<% if current_user.admin? %>
 				<%= link_to "Confessionals", confessionals_path %>
 			<% else %>

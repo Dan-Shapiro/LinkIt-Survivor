@@ -1,0 +1,69 @@
+<div class="wrapper">
+	<h1 id="page_title"><%= @live_game.name %></h1>
+
+	<h2 id="display_time_dif">0.000</h2>
+
+	<div class="actions button_wrapper">
+    <button id="start_timer" class="button">Start the Game</button>
+    <button id="stop_timer" class="button">Stop the Clock</button>
+  </div>
+
+	<%= form_with(model: @score, local: true) do |form| %>
+    <% if @score.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@score.errors.count, "error") %> prohibited this score from being saved:</h2>
+
+        <ul>
+        <% @score.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.hidden_field :user_id, value: current_user.id %>
+    </div>
+
+    <div class="field">
+      <%= form.hidden_field :game_id, value: @live_game.id %>
+    </div>
+
+    <div class="field">
+      <%= form.hidden_field :score, :id => 'score_field' %>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		var interval;
+		var startTime;
+		var elapsedTime;
+		$('#stop_timer').hide();
+
+		$('#start_timer').click(function() {
+			$('#stop_timer').show();
+			$('#start_timer').hide();
+
+			startTime = Date.now();
+
+			if(interval) {
+				clearInterval(interval);
+			}
+
+			interval = setInterval(function() {
+			elapsedTime = Date.now() - startTime;
+			$('#display_time_dif').html((elapsedTime / 1000).toFixed(3));
+		}, 1);
+		});
+
+		$('#stop_timer').click(function() {
+			elapsedTime = (Date.now() - startTime);
+			clearInterval(interval);
+			$('#display_time_dif').html((elapsedTime / 1000).toFixed(3));
+			$('#score_field').val((elapsedTime / 1000).toFixed(3));
+			$('form')[0].submit();
+		});
+	});
+</script>

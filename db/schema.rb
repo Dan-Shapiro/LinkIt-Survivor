@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_02_210925) do
+ActiveRecord::Schema.define(version: 2020_04_03_195653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 2020_04_02_210925) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_confessionals_on_user_id"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active"
   end
 
   create_table "polls", force: :cascade do |t|
@@ -41,6 +48,16 @@ ActiveRecord::Schema.define(version: 2020_04_02_210925) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.index ["slug"], name: "index_posts_on_slug", unique: true
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "user_id"
+    t.decimal "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_scores_on_game_id"
+    t.index ["user_id"], name: "index_scores_on_user_id"
   end
 
   create_table "tribe_votes", force: :cascade do |t|
@@ -91,6 +108,8 @@ ActiveRecord::Schema.define(version: 2020_04_02_210925) do
   add_foreign_key "confessionals", "users"
   add_foreign_key "polls", "users"
   add_foreign_key "polls", "votes"
+  add_foreign_key "scores", "games"
+  add_foreign_key "scores", "users"
   add_foreign_key "tribe_votes", "tribes"
   add_foreign_key "tribe_votes", "votes"
   add_foreign_key "users", "tribes"

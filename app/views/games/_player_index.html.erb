@@ -1,0 +1,30 @@
+<% if @games.count.zero? %>
+  <h2>There have not been any games yet.</h2>
+<% else %>
+  <div class="table_wrapper">
+    <table>
+      <tr>
+        <th>Game</th>
+        <th>Score</th>
+        <th>Placement</th>
+      </tr>
+      
+      <% @games.each do |game| %>
+        <% score = Score.where(user_id: current_user.id, game_id: game.id).order("created_at DESC").first %>
+        <tr>
+          <td><%= game.name %></td>
+          <td>
+            <% if score.nil? %>
+              <span class="button_wrapper">
+                <%= link_to 'Play', play_games_path, :class => 'button' %>
+              </span>
+            <% else %>
+              <%= score.score %>
+            <% end %>
+          </td>
+          <td><%= Score.where(game_id: game.id).order("score DESC").index(score) + 1 unless score.nil? %></td>
+        </tr>
+        <% end %>
+    </table>
+  </div>
+<% end %>

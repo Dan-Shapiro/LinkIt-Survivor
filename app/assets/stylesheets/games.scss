@@ -1,0 +1,15 @@
+// Place all the styles related to the Games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "variables";
+
+.active_tag {
+	color: $dark;
+	text-align: center;
+	border: 2px solid $border;
+	border-radius: 10px;
+	background-color: $highlight;
+	width: 50%;
+	margin: 0 auto;
+}
