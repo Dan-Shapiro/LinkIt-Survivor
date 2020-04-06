@@ -1541,6 +1541,9 @@
 
 
 <script type="text/javascript">
+
+  var current_score_total = 0;
+
 Function.prototype.bind = Function.prototype.bind || function(a) {
     var b = this;
     return function(c) {
@@ -1792,6 +1795,9 @@ HTMLActuator.prototype.updateScore = function(a) {
     a.classList.add("score-addition"),
     a.textContent = "+" + b,
     this.scoreContainer.appendChild(a))
+
+    // SET SCORE
+    current_score_total = this.score;
 }
 ;
 HTMLActuator.prototype.updateBestScore = function(a) {
@@ -2187,11 +2193,10 @@ window.requestAnimationFrame(function() {
 
 
 document.getElementById('submit_score').onclick = function() {
-  var score = document.getElementById('current_score').innerHTML.substr(0, document.getElementById('current_score').innerHTML.indexOf('<'));
+  document.getElementById('score_field').value = current_score_total;
 
-  document.getElementById('score_field').value = score;
-
-  $('form')[0].submit();
+  alert(current_score_total);
+  //$('form')[0].submit();
 }
 
 </script>
