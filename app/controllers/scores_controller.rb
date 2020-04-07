@@ -1,5 +1,6 @@
 class ScoresController < ApplicationController
 	before_action :authenticate_user!
+  before_action :played_current_game, only: [:create]
 
 	def new
     @score = Score.new
@@ -16,6 +17,13 @@ class ScoresController < ApplicationController
       else
         format.html { render :new }
       end
+    end
+  end
+
+  def played_current_game
+    live_game = Game.where(active: true).order("created_at DESC").first
+    if Score.where(user_id: current_user.id, game_id: live_game.id).count > 0
+      redirect_to games_path, notice: 'You have already played this game.'
     end
   end
 

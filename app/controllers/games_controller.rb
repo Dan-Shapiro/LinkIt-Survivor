@@ -2,6 +2,7 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :is_admin?, except: [:play, :index]
+  before_action :played_current_game, only: [:play]
 
   def index
     @games = Game.all.order("created_at DESC").paginate(page: params[:page], per_page: 1)
@@ -48,11 +49,14 @@ class GamesController < ApplicationController
   end
 
   def play
+    @score = Score.new
+  end
+
+  def played_current_game
     @live_game = Game.where(active: true).order("created_at DESC").first
     if Score.where(user_id: current_user.id, game_id: @live_game.id).count > 0
       redirect_to games_path, notice: 'You have already played this game.'
     end
-    @score = Score.new
   end
 
   private
