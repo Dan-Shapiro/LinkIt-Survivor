@@ -1,0 +1,365 @@
+<div class="wrapper">
+  <h1 id="page_title"><%= @live_game.name %></h1>
+	<link href='https://fonts.googleapis.com/css?family=Cutive+Mono|Roboto:400,900,700' rel='stylesheet' type='text/css'/>
+	<h1 id="output"></h1>
+	<div class="target mono" id="target"></div>
+	<div id="your-attempt" class="mono your-attempt" placeholder="Your text will appear here"></div>
+	<div class="results">
+	  <ul class="stats">
+	    <li>Words per minute <span id="wpm">0</span></li>
+	    <li>Wordcount <span id="wordcount">0</span></li>
+	    <li>Timer <span id="timer">0</span></li>
+	    <li>Errors <span id="errors">0</span></li>
+	  </ul>
+	</div>
+	<hr style="clear:both;" />
+	<div>
+	<textarea name="" id="input_text" cols="30" rows="10">Proud partner. Simply stated, LinkIt! is a proud partner to New Jersey educators. In this first-ever edition of Data Insights, we are proud to bring you stories of amazing teachers, leaders, and teams using data to positively impact their students. As you read this chronicle of our clients' data journeys, and for that matter, LinkIt's as well, we invite you to reflect on your growth in the use of data. While many of our partner districts frequently achieve their goals, the most effective educators continuously raise the bar and build on their previous successes and lessons learned. So whether your assessment and data initiatives are in their infancy or highly refined, we hope the stories and interviews in Data Insights help move you further along the data continuum. We would like to thank the many districts who participated in this magazine. Thank you for being so open and honest about the challenges you experienced and for sharing the strategies your team implemented to improve student outcomes and the data culture in each of your schools. We know your stories will help inspire the next round of data-driven celebrations throughout the state. Like all NJ educators, these schools have encountered mandated shifts in state testing, standards, accountability, and politics. Despite the changes, they have successfully leveraged the objective insight that data provides, and we are proud to have played a role in fostering sustainable practices. Our team endeavors to build a strong professional learning community throughout the state where like-minded, data-centric educators can celebrate the achievement and growth of their students and staff, collaboratively learn, and plan innovative new ways to inform teaching, learning, and leadership. We continue to be blown away by the rapid expansion and impact of this community, and we are honored to have a seat at the table. It was nearly a decade ago that I brought LinkIt! into my former district. I, along with veteran LinkIt! districts like Manalapan and East Amwell (both featured in this magazine), have been part of this journey from the beginning and experienced first hand how much LinkIt's products and services have evolved. Since joining LinkIt! as Chief Academic Officer five years ago, the number of NJ partner districts has grown to approximately 210. And while not every district is featured in this magazine, our team has learned something from each implementation and we thank you for helping to shape NJ's assessment and data culture. One of the reasons for LinkIt's growth has been our commitment to providing unparalleled service and support. I would like to thank our team, as their efforts have helped to make these success stories a reality. On behalf of our developers, data analysts, content specialists, technical support, and regional account managers (all former NJ educational leaders), we look forward to collaborating with you to make Data Insights' innovative strategies a reality in your own district. For existing customers, please share your feedback and let us know your availability to discuss how we can take your LinkIt! implementation to the next level.</textarea>
+	</div>
+	<div class="settings">
+	  <a href="#" id="reset">Reset</a> | <a href="#" id="change">Change text</a> | <a href="#" id="pause">Pause II</a>
+	</div>
+
+	<%= form_with(model: @score, local: true) do |form| %>
+    <% if @score.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@score.errors.count, "error") %> prohibited this score from being saved:</h2>
+
+        <ul>
+        <% @score.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.hidden_field :user_id, value: current_user.id %>
+    </div>
+
+    <div class="field">
+      <%= form.hidden_field :game_id, value: @live_game.id %>
+    </div>
+
+    <div class="field">
+      <%= form.hidden_field :score, :id => 'score_field', value: 0 %>
+    </div>
+  <% end %>
+
+  <div class="actions button_wrapper" id="submit_button_wrapper" style="display:none;">
+    <button id="submit_score" class="button">Submit Score</button>
+  </div>
+</div>
+
+
+
+
+
+<style type="text/css">
+body {
+	 padding-top: 20px;
+	 font-family: Roboto, sans-serif;
+	 text-align: center;
+	 background: #fff;
+	 color: #222;
+	 padding-bottom: 40px;
+	 background: url(https://djave.co.uk/hosted/subtlepatterns/lightpaperfibers.png);
+}
+ .mono {
+	 font-family: "Cutive Mono", monospace;
+}
+ .wrong {
+	 background: #99f;
+	 color: #fff;
+}
+ hr {
+	 margin: 1em 0;
+	 max-width: 800px;
+	 border: none;
+	 border-top: 1px solid rgba(255, 255, 255, 0.3);
+	 margin: 0 auto;
+}
+ .stats {
+	 overflow: hidden;
+	 margin-bottom: 1em;
+	 height: 100px;
+	 list-style: none;
+	 padding: 5px 0;
+	 font-size: 16px;
+	 font-weight: 900;
+	 max-width: 1000px;
+	 margin: 0 auto;
+}
+ .stats li {
+	 width: 25%;
+	 float: left;
+}
+ .target {
+	 color: #fff;
+	 text-align: left;
+	 font-size: 32px;
+	 min-width: 300px;
+	 min-height: 40px;
+	 width: 600px;
+	 display: inline-block;
+	 position: relative;
+	 white-space: pre;
+	 background: #333;
+	 box-shadow: inset 0 0 10px 0 rgba(255, 255, 255, 0.2);
+	 padding: 22px 10px 10px;
+}
+ .target:after {
+	 content: '';
+	 position: absolute;
+	 width: 20px;
+	 height: 2px;
+	 background: #f00;
+	 left: 10px;
+	 top: 53px;
+	 -webkit-animation: cursor_flash 0.5s infinite;
+	 -moz-animation: cursor_flash 0.5s infinite;
+	 -o-animation: cursor_flash 0.5s infinite;
+	 animation: cursor_flash 0.5s infinite;
+}
+ @-webkit-keyframes cursor_flash {
+	 0% {
+		 background: #fff;
+	}
+	 50% {
+		 background: #99f;
+	}
+	 100% {
+		 background: #fff;
+	}
+}
+ @-moz-keyframes cursor_flash {
+	 0% {
+		 background: #fff;
+	}
+	 50% {
+		 background: #99f;
+	}
+	 100% {
+		 background: #fff;
+	}
+}
+ @-o-keyframes cursor_flash {
+	 0% {
+		 background: #fff;
+	}
+	 50% {
+		 background: #99f;
+	}
+	 100% {
+		 background: #fff;
+	}
+}
+ @keyframes cursor_flash {
+	 0% {
+		 background: #fff;
+	}
+	 50% {
+		 background: #99f;
+	}
+	 100% {
+		 background: #fff;
+	}
+}
+ .button {
+	 display: inline-block;
+	 padding: 8px 10px;
+	 background: #057f24;
+	 border-radius: 2px;
+	 color: #fff;
+}
+ #textarea {
+	 position: absolute;
+}
+ .spell {
+	 font-size: 40px;
+	 font-weight: 900;
+	 letter-spacing: 2px;
+}
+ .spell span {
+	 color: #22f;
+}
+ textarea {
+	 color: #fff;
+	 width: 60%;
+	 margin: 1em auto;
+	 display: none;
+	 position: relative;
+	 white-space: pre;
+	 background: #333;
+	 box-shadow: inset 0 0 10px 0 rgba(255, 255, 255, 0.2);
+	 border: 1px solid rgba(255, 255, 255, 0.4);
+}
+ .your-attempt {
+	 background: #222;
+	 color: #fff;
+	 padding: 10px;
+	 min-height: 100px;
+	 border: 1px solid #555;
+	 max-width: 600px;
+	 margin: 2em auto;
+	 white-space: pre-wrap;
+}
+ .results {
+	 font-family: Roboto;
+}
+ .settings {
+	 position: fixed;
+	 bottom: 0;
+	 left: 0;
+	 right: 0;
+	 padding: 3px 6px 6px;
+	 background: #444;
+	 font-family: Roboto, sans-serif;
+	 color: #999;
+	 text-align: left;
+	 text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+	 border-top: 3px solid #222;
+	 font-size: 12px;
+}
+ .settings a {
+	 color: #fff;
+	 transition: color 0.2s;
+	 text-decoration: none;
+}
+ .settings a:hover {
+	 color: #ccf;
+}
+</style>
+
+
+
+<script type="text/javascript">
+time_setting = 30;
+random_setting = 100;
+input_text = "How fast can you type?";
+target_setting = $("#output");
+type(input_text, target_setting, 0, time_setting, random_setting);
+
+function type(input, target, current, time, random){
+	if(current <= input.length){
+		current += 1;
+		target.text(input.substring(0,current));
+		setTimeout(function(){
+			type(input, target, current, time, random);
+		},time + Math.random()*random);
+	}
+}
+
+var character_length = 31;
+var index = 0;
+var letters =  $("#input_text").val();
+var started = false;
+var current_string = letters.substring(index, index + character_length);
+
+var wordcount = 0;
+
+$("html, body").click(function(){
+  $("#textarea").focus();
+});
+
+$("#target").text(current_string);
+$(window).keypress(function(evt){
+  if(!started){
+    start();
+    started = true;
+  }
+  evt = evt || window.event;
+  var charCode = evt.which || evt.keyCode;
+  var charTyped = String.fromCharCode(charCode);
+  if(charTyped == letters.charAt(index)){
+    if(charTyped == " "){
+      wordcount ++;
+      $("#wordcount").text(wordcount);
+    }
+    index ++;
+    current_string = letters.substring(index, index + character_length);
+    $("#target").text(current_string);
+    $("#your-attempt").append(charTyped);
+    if(index == letters.length){
+      wordcount ++;
+      $("#wordcount").text(wordcount);
+      $("#timer").text(timer);
+      if(timer == 0){
+        timer = 1;
+      }
+      wpm = Math.round(wordcount / (timer / 60));
+      $("#wpm").text(wpm);
+      stop();
+      finished();
+    }
+  }else{
+    $("#your-attempt").append("<span class='wrong'>" + charTyped + "</span>");
+    errors ++;
+    $("#errors").text(errors);
+  }
+});
+
+var timer = 0;
+var wpm = 0;
+var errors = 0;
+var interval_timer;
+
+$("#reset").click(function(){
+  reset();
+});
+
+$("#change").click(function(){
+  $("#input_text").show().focus();
+});
+
+$("#pause").click(function(){
+  stop();
+});
+
+$("#input_text").change(function(){
+  reset();
+});
+
+function start(){
+  interval_timer = setInterval(function(){
+    timer ++;
+    $("#timer").text(timer);
+    wpm = Math.round(wordcount / (timer / 60));
+    $("#wpm").text(wpm);
+  }, 1000)
+}
+
+function stop(){
+  clearInterval(interval_timer);
+  started = false;
+}
+
+function reset(){
+  $("#input_text").blur().hide();;
+  $("#your-attempt").text("");
+  index = 0;
+  errors = 0;
+  clearInterval(interval_timer);
+  started = false;
+  letters = $("#input_text").val();
+  $("#wpm").text("0");
+  $("#timer").text("0");
+  $("#wordcount").text("0");
+  timer = 0;
+  wpm = 0;
+  current_string = letters.substring(index, index + character_length);
+  $("#target").text(current_string);
+}
+
+function finished(){
+	$('#submit_button_wrapper').show();
+
+	document.getElementById('submit_score').onclick = function() {
+	  var score = wpm;
+
+	  document.getElementById('score_field').value = score;
+
+	  $('form')[0].submit();
+	}
+}
+</script>
