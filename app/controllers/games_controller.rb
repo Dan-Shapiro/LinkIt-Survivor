@@ -5,7 +5,11 @@ class GamesController < ApplicationController
   before_action :played_current_game, only: [:play]
 
   def index
-    @games = Game.all.order("created_at DESC").paginate(page: params[:page], per_page: 1)
+    if current_user.admin?
+      @games = Game.all.order("created_at DESC").paginate(page: params[:page], per_page: 1)
+    else
+      @games = Game.all.order("created_at DESC").paginate(page: params[:page], per_page: 10)
+    end
   end
 
   def new
