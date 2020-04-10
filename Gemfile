@@ -13,7 +13,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
-gem 'devise', '~> 4.2'
+gem "devise", ">= 4.7.1"
 gem 'normalize-rails', '~> 4.1', '>= 4.1.1'
 gem 'friendly_id', '~> 5.1'
 gem 'will_paginate', '~> 3.3'
